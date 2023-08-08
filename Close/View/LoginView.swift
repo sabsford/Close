@@ -43,8 +43,85 @@ struct LoginView: View {
                     //MARK: Login Button
                     Text("Sign In")
                         .foregroundColor(.white)
+                        .hAlign(.center)
                         .fillView(.black)
                 }
+                .padding(.top,10)
+                //MARK: Register button
+                HStack{
+                    Text("Don't have an account?")
+                        .foregroundColor(.gray)
+                    
+                    Button("Register Now"){
+                        
+                    }
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+                }
+                .font(.callout)
+                .vAlign(.bottom)
+            }
+        }
+        .vAlign(.top)
+        .padding(15)
+    }
+}
+
+//MARK: Register View
+
+struct RegisterView: View{
+    //MARK: User Details
+    @State var emailID: String = ""
+    @State var password: String = ""
+    var body: some View{
+        VStack(spacing: 10){
+            Text("Lets sign you in!")
+                .font(.largeTitle.bold())
+                .hAlign(.leading)
+            
+            Text("Welcome Back,\nYou have been missed")
+                .font(.title3)
+                .hAlign(.leading)
+            
+            VStack(spacing: 12){
+                TextField("Email", text: $emailID)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.5))
+                    .padding(.top,25)
+                
+                SecureField("Password", text: $password)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.5))
+                
+                Button("Reset password?", action: {})
+                    .font(.callout)
+                    .fontWeight(.medium)
+                    .tint(.black)
+                    .hAlign(.trailing)
+                
+                Button {
+                    
+                } label: {
+                    //MARK: Login Button
+                    Text("Sign In")
+                        .foregroundColor(.white)
+                        .hAlign(.center)
+                        .fillView(.black)
+                }
+                .padding(.top,10)
+                //MARK: Register button
+                HStack{
+                    Text("Don't have an account?")
+                        .foregroundColor(.gray)
+                    
+                    Button("Register Now"){
+                        
+                    }
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+                }
+                .font(.callout)
+                .vAlign(.bottom)
             }
         }
         .vAlign(.top)
