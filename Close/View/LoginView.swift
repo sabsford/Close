@@ -11,6 +11,8 @@ struct LoginView: View {
     //MARK: User Details
     @State var emailID: String = ""
     @State var password: String = ""
+    //MARK: View Properties
+    @State var createAccount: Bool = false
     var body: some View {
         VStack(spacing: 10){
             Text("Lets sign you in!")
@@ -49,11 +51,11 @@ struct LoginView: View {
                 .padding(.top,10)
                 //MARK: Register button
                 HStack{
-                    Text("Don't have an account?")
+                    Text("Don't Have an account?")
                         .foregroundColor(.gray)
                     
                     Button("Register Now"){
-                        
+                        createAccount.toggle()
                     }
                     .fontWeight(.bold)
                     .foregroundColor(.black)
@@ -64,6 +66,10 @@ struct LoginView: View {
         }
         .vAlign(.top)
         .padding(15)
+        //MARK: Register View VIA SHeets
+        .fullScreenCover(isPresented: $createAccount) {
+            RegisterView()
+        }
     }
 }
 
@@ -73,6 +79,7 @@ struct RegisterView: View{
     //MARK: User Details
     @State var emailID: String = ""
     @State var password: String = ""
+    @State var userName: String = ""
     var body: some View{
         VStack(spacing: 10){
             Text("Lets sign you in!")
@@ -84,37 +91,37 @@ struct RegisterView: View{
                 .hAlign(.leading)
             
             VStack(spacing: 12){
-                TextField("Email", text: $emailID)
+                TextField("Username", text: $userName)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                     .padding(.top,25)
                 
-                SecureField("Password", text: $password)
+                TextField("Email", text: $emailID)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                 
-                Button("Reset password?", action: {})
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .tint(.black)
-                    .hAlign(.trailing)
+                SecureField("Password", text: $password)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.5))
+
                 
                 Button {
                     
                 } label: {
-                    //MARK: Login Button
-                    Text("Sign In")
+                    //MARK: Sign Up Button
+                    Text("Sign Up")
                         .foregroundColor(.white)
                         .hAlign(.center)
                         .fillView(.black)
                 }
                 .padding(.top,10)
+                
                 //MARK: Register button
                 HStack{
-                    Text("Don't have an account?")
+                    Text("Already Have an account?")
                         .foregroundColor(.gray)
                     
-                    Button("Register Now"){
+                    Button("Login Now"){
                         
                     }
                     .fontWeight(.bold)
