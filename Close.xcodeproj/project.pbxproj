@@ -19,6 +19,11 @@
 		B2B713FC2A81F73700190338 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2B713FB2A81F73700190338 /* GoogleService-Info.plist */; };
 		B2B713FF2A81F77500190338 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B2B713FE2A81F77500190338 /* FirebaseAuth */; };
 		B2B714082A81F85700190338 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B714072A81F85700190338 /* LoginView.swift */; };
+		B2B714192A83272F00190338 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B714182A83272F00190338 /* RegisterView.swift */; };
+		B2B7141B2A83294900190338 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B7141A2A83294900190338 /* ContentView.swift */; };
+		B2B7141D2A8330CA00190338 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B7141C2A8330CA00190338 /* LoadingView.swift */; };
+		B2B7141F2A83337200190338 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B7141E2A83337200190338 /* MainView.swift */; };
+		B2B714212A83738900190338 /* CloseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B714202A83738900190338 /* CloseApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		B2B713EE2A81F64C00190338 /* CloseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B2B713FB2A81F73700190338 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B2B714072A81F85700190338 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B2B714182A83272F00190338 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		B2B7141A2A83294900190338 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B2B7141C2A8330CA00190338 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		B2B7141E2A83337200190338 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		B2B714202A83738900190338 /* CloseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,12 +119,14 @@
 				B2B714002A81F79300190338 /* View */,
 				B2B713FB2A81F73700190338 /* GoogleService-Info.plist */,
 				B2B713CB2A81F64B00190338 /* AppDelegate.swift */,
+				B2B714202A83738900190338 /* CloseApp.swift */,
 				B2B713CD2A81F64B00190338 /* SceneDelegate.swift */,
 				B2B713CF2A81F64B00190338 /* ViewController.swift */,
 				B2B713D12A81F64B00190338 /* Main.storyboard */,
 				B2B713D42A81F64C00190338 /* Assets.xcassets */,
 				B2B713D62A81F64C00190338 /* LaunchScreen.storyboard */,
 				B2B713D92A81F64C00190338 /* Info.plist */,
+				B2B7141A2A83294900190338 /* ContentView.swift */,
 			);
 			path = Close;
 			sourceTree = "<group>";
@@ -140,6 +152,9 @@
 			isa = PBXGroup;
 			children = (
 				B2B714072A81F85700190338 /* LoginView.swift */,
+				B2B714182A83272F00190338 /* RegisterView.swift */,
+				B2B7141C2A8330CA00190338 /* LoadingView.swift */,
+				B2B7141E2A83337200190338 /* MainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,8 +305,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2B713D02A81F64B00190338 /* ViewController.swift in Sources */,
+				B2B7141F2A83337200190338 /* MainView.swift in Sources */,
+				B2B714192A83272F00190338 /* RegisterView.swift in Sources */,
+				B2B7141B2A83294900190338 /* ContentView.swift in Sources */,
+				B2B714212A83738900190338 /* CloseApp.swift in Sources */,
 				B2B713CC2A81F64B00190338 /* AppDelegate.swift in Sources */,
 				B2B714082A81F85700190338 /* LoginView.swift in Sources */,
+				B2B7141D2A8330CA00190338 /* LoadingView.swift in Sources */,
 				B2B713CE2A81F64B00190338 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

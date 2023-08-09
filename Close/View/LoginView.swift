@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct LoginView: View {
     //MARK: User Details
     @State var emailID: String = ""
@@ -19,7 +20,7 @@ struct LoginView: View {
                 .font(.largeTitle.bold())
                 .hAlign(.leading)
             
-            Text("Welcome Back,\nYou have been missed")
+            Text("Welcome back,\nYou have been missed!")
                 .font(.title3)
                 .hAlign(.leading)
             
@@ -75,66 +76,7 @@ struct LoginView: View {
 
 //MARK: Register View
 
-struct RegisterView: View{
-    //MARK: User Details
-    @State var emailID: String = ""
-    @State var password: String = ""
-    @State var userName: String = ""
-    var body: some View{
-        VStack(spacing: 10){
-            Text("Lets sign you in!")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            
-            Text("Welcome Back,\nYou have been missed")
-                .font(.title3)
-                .hAlign(.leading)
-            
-            VStack(spacing: 12){
-                TextField("Username", text: $userName)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                    .padding(.top,25)
-                
-                TextField("Email", text: $emailID)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
 
-                
-                Button {
-                    
-                } label: {
-                    //MARK: Sign Up Button
-                    Text("Sign Up")
-                        .foregroundColor(.white)
-                        .hAlign(.center)
-                        .fillView(.black)
-                }
-                .padding(.top,10)
-                
-                //MARK: Register button
-                HStack{
-                    Text("Already Have an account?")
-                        .foregroundColor(.gray)
-                    
-                    Button("Login Now"){
-                        
-                    }
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
-                }
-                .font(.callout)
-                .vAlign(.bottom)
-            }
-        }
-        .vAlign(.top)
-        .padding(15)
-    }
-}
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
@@ -142,7 +84,7 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 
-// MARK: vIWQ eXTENSIONS FOR UI building
+// MARK: view eXTENSIONS FOR UI building
 extension View{
     func hAlign(_ alignment: Alignment)-> some View{
         self
