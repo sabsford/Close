@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Firebase
 
 struct LoginView: View {
     //MARK: User Details
@@ -74,7 +74,22 @@ struct LoginView: View {
     }
 }
 
-//MARK: Register View
+    func loginUser() {
+        Task {
+            do {
+                try await Auth.auth().signIn(withEmail: emailID, password: passwordID)
+            } catch {
+                await setError(error: error)
+            }
+        }
+    }
+
+    func setError(error: Error) async {
+        await MainActor.run {
+            errorMessage = error.localizedDescription
+            showError.toggle()
+        }
+    }
 
 
 
