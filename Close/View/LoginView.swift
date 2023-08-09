@@ -14,6 +14,8 @@ struct LoginView: View {
     @State var password: String = ""
     //MARK: View Properties
     @State var createAccount: Bool = false
+    @State var showError: Bool = false
+    @State var errorMessage: String = ""
     var body: some View {
         VStack(spacing: 10){
             Text("Lets sign you in!")
@@ -34,19 +36,23 @@ struct LoginView: View {
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                 
-                Button("Reset password?", action: {})
-                    .font(.callout)
-                    .fontWeight(.medium)
-                    .tint(.black)
-                    .hAlign(.trailing)
+                Button(action: {
+                    resetPassword(email: emailID)
+                }) {
+                    Text("Reset password?")
+                        .font(.callout)
+                        .fontWeight(.medium)
+                }
+                .tint(.black)
+                .hAlign(.trailing)
                 
-                Button {
-                    
-                } label: {
-                    //MARK: Login Button
+                Button(action: {
+                    loginUser(email: emailID, password: password)
+                }) {
                     Text("Sign In")
                         .foregroundColor(.white)
-                        .hAlign(.center)
+                        .frame(maxWidth: .infinity) // This line ensures the button expands to the width of its container
+                        .padding() // Add padding for better visual appearance
                         .fillView(.black)
                 }
                 .padding(.top,10)
@@ -73,11 +79,22 @@ struct LoginView: View {
         }
     }
 }
-
-    func loginUser() {
+func loginUser(email: String, password: String) {
         Task {
             do {
-                try await Auth.auth().signIn(withEmail: emailID, password: passwordID)
+                try await Auth.auth().signIn(withEmail: email, password: password)
+                print("User Found")
+            } catch {
+                await setError(error: error)
+            }
+        }
+    }
+
+    func resetPassword(email: String) {
+        Task {
+            do {
+                try await Auth.auth().sendPasswordReset(withEmail: email)
+                print("Link Sent")
             } catch {
                 await setError(error: error)
             }
@@ -90,7 +107,6 @@ struct LoginView: View {
             showError.toggle()
         }
     }
-
 
 
 struct LoginView_Previews: PreviewProvider {
