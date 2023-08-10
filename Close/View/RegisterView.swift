@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
@@ -118,12 +117,12 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
 }
 
 struct RegisterView: View {
-    @State var emailID: String = ""
-    @State var password: String = ""
-    @State var userName: String = ""
-    @State var userBio: String = ""
-    @State var userBioLink: String = ""
-    @State var selectedProfileImage: UIImage? = nil
+    @State private var emailID: String = ""
+    @State private var password: String = ""
+    @State private var userName: String = ""
+    @State private var userBio: String = ""
+    @State private var userBioLink: String = ""
+    @State private var selectedProfileImage: UIImage? = nil
     @StateObject private var viewModel = RegisterViewModel()
     
     var body: some View {
@@ -216,11 +215,9 @@ struct RegisterView: View {
                     Text("Already have an account?")
                         .foregroundColor(.gray)
                     
-                    Button("Login Now") {
-                        // Handle the action to transition to the login view
-                    }
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    NavigationLink("Login Now", destination: LoginView())
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
                 }
                 .font(.callout)
                 .customVAlign(.bottom)
