@@ -1,10 +1,3 @@
-//
-//  LoginView.swift
-//  Close
-//
-//  Created by SF on 8/7/23.
-//
-
 import SwiftUI
 import Firebase
 
@@ -14,6 +7,11 @@ class LoginViewModel: ObservableObject {
     
     func loginUser(email: String, password: String) {
         Task {
+            if email.isEmpty || password.isEmpty {
+                setError(message: "Please input valid email and password.")
+                return
+            }
+            
             do {
                 try await Auth.auth().signIn(withEmail: email, password: password)
                 print("User Found")
@@ -38,6 +36,13 @@ class LoginViewModel: ObservableObject {
         await MainActor.run {
             errorMessage = error.localizedDescription
             showError.toggle()
+        }
+    }
+    
+    func setError(message: String) {
+        DispatchQueue.main.async {
+            self.errorMessage = message
+            self.showError.toggle()
         }
     }
 }
@@ -90,6 +95,9 @@ struct LoginView: View {
                         .fillView(.black)
                 }
                 .padding(.top,10)
+                .alert(isPresented: $viewModel.showError) {
+                    Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
+                }
                 
                 //MARK: Register button
                 HStack{
