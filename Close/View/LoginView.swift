@@ -93,6 +93,13 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .fillView(.black)
+                    
+//                    NavigationLink(destination: HomePageViewController()) {
+//                        Text("Continue to Home")
+//                            .foregroundColor(.white)
+//                            .frame(maxWidth: .infinity)
+//                            .padding()
+//                            .fillView(.black)
                 }
                 .padding(.top,10)
                 .alert(isPresented: $viewModel.showError) {
@@ -162,3 +169,4 @@ extension View{
             }
     }
 }
+
