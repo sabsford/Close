@@ -3,12 +3,22 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseFirestoreSwift
+
+struct User: Codable {
+    var username: String
+    var userBio: String
+    var userBioLink: String
+    var userUID: String
+    var userEmail: String
+    var userProfileURL: URL
+}
 
 class RegisterViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var showError: Bool = false
     @Published var userProfilePicData: Data?
-    @Published var selectedProfileImage: UIImage? = nil // Add this line
+    @Published var selectedProfileImage: UIImage? = nil
     @State private var userName: String = ""
     @State private var userBio: String = ""
     @State private var userBioLink: String = ""
@@ -18,24 +28,21 @@ class RegisterViewModel: ObservableObject {
     func registerUser(email: String, password: String) {
         Task {
             do {
-                // Create firebase account
                 try await Auth.auth().createUser(withEmail: email, password: password)
-                // Uploading profile pic into firebase storage
                 guard let userUID = Auth.auth().currentUser?.uid else { return }
-                guard let imageData = userProfilePicData else { return } // Use userProfilePicData here
+                guard let imageData = userProfilePicData else { return }
                 let storageRef = Storage.storage().reference().child("Profile_Images").child(userUID)
                 let _ = try await storageRef.putDataAsync(imageData)
-                // Downloading photo url
                 let downloadURL = try await storageRef.downloadURL()
-                // Creating a userstorage object
                 let user = User(username: userName, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
-                // Saving user doc into firestore database
-                let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
-                    if error == nil {
-                        print("Saved Successfully")
-                    }
-                })
+                do {
+                    try await Firestore.firestore().collection("Users").document(userUID).setData(from: user)
+                    print("Saved Successfully")
+                } catch {
+                    await setError(error: error)
+                }
             } catch {
+                try? await Auth.auth().currentUser?.delete()
                 await setError(error: error)
             }
         }
@@ -117,7 +124,7 @@ struct RegisterView: View {
     @State var userBio: String = ""
     @State var userBioLink: String = ""
     @State var selectedProfileImage: UIImage? = nil
-    @StateObject private var viewModel = RegisterViewModel() // Using @StateObject to manage the viewModel
+    @StateObject private var viewModel = RegisterViewModel()
     
     var body: some View {
         VStack(spacing: 10) {
@@ -221,10 +228,8 @@ struct RegisterView: View {
         }
         .customVAlign(.top)
         .padding(15)
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(viewModel.errorMessage)
+        .alert(isPresented: $viewModel.showError) {
+            Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
         }
     }
 }
@@ -236,12 +241,6 @@ struct RegisterView_Previews: PreviewProvider {
 }
 
 extension View {
-    func disableWithOpacity(_ condition: Bool) -> some View {
-        self
-            .disabled(condition)
-            .opacity(condition ? 0.6 : 1)
-    }
-    
     func customHAlign(_ alignment: Alignment) -> some View {
         self
             .frame(maxWidth: .infinity, alignment: alignment)
@@ -250,11 +249,5 @@ extension View {
     func customVAlign(_ alignment: Alignment) -> some View {
         self
             .frame(maxHeight: .infinity, alignment: alignment)
-    }
-    
-    func customFillView(_ color: Color) -> some View {
-        self
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
     }
 }
