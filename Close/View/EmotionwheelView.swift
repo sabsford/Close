@@ -15,15 +15,16 @@ struct ContentView: View {
                 
                 Spacer()
                 
+                NavigationLink(destination: CreatePostView(), isActive: $isCreatePostPresented) {
+                    EmptyView()
+                }
+                
                 Button(action: {
-                    isCreatePostPresented.toggle()
+                    isCreatePostPresented = true
                 }) {
                     Image(systemName: "arrow.right.circle.fill")
                         .font(.system(size: 30))
                         .foregroundColor(.blue)
-                }
-                .sheet(isPresented: $isCreatePostPresented) {
-                    CreatePostView()
                 }
             }
             .padding()
@@ -51,6 +52,7 @@ struct RemoteImage: View {
 struct CreatePostView: View {
     @State private var postText = ""
     @State private var isShowingPost = false
+    @Environment(\.presentationMode) var presentationMode // Add this line
 
     var body: some View {
         VStack {
@@ -82,9 +84,20 @@ struct CreatePostView: View {
         .alert(isPresented: $isShowingPost) {
             Alert(title: Text("Post Created"), message: Text("Your post has been created successfully."), dismissButton: .default(Text("OK")))
         }
+        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss() // Go back to Feeling Page
+                }) {
+                    Image(systemName: "arrow.left.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.blue)
+                }
+            }
+        }
     }
 }
-
 
 struct FeelingApp: App {
     var body: some Scene {
