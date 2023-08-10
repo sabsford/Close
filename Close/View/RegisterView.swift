@@ -30,17 +30,20 @@ struct ImagePicker: View {
     @State private var isImagePickerPresented = false
     
     var body: some View {
-        Button(action: {
-            isImagePickerPresented.toggle()
-        }) {
-            Text("Choose Profile Picture")
-                .foregroundColor(.white)
-                .customHAlign(.center)
-                .customFillView(.blue)
-        }
-        .padding(.top, 10)
-        .sheet(isPresented: $isImagePickerPresented) {
-            ImagePickerViewController(selectedImage: $selectedImage, isImagePickerPresented: $isImagePickerPresented)
+        VStack {
+            Button(action: {
+                isImagePickerPresented.toggle()
+            }) {
+                Text("Choose Profile Picture")
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(8)
+            }
+            .padding(.top, 10)
+            .sheet(isPresented: $isImagePickerPresented) {
+                ImagePickerViewController(selectedImage: $selectedImage, isImagePickerPresented: $isImagePickerPresented)
+            }
         }
     }
 }
@@ -102,30 +105,67 @@ struct RegisterView: View {
                 .font(.title3)
                 .customHAlign(.leading)
             
+            ZStack {
+                if let image = selectedProfileImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .clipShape(Circle())
+                } else {
+                    Circle()
+                        .frame(width: 120, height: 120)
+                        .foregroundColor(.gray)
+                        .overlay(
+                            Image(systemName: "person.fill")
+                                .foregroundColor(.white)
+                        )
+                }
+            }
+            .padding(.top, 10)
+            
+            ImagePicker(selectedImage: $selectedProfileImage)
+                .padding(.top, 10)
+            
             VStack(spacing: 12) {
                 TextField("Username", text: $userName)
                     .textContentType(.emailAddress)
-                    .customBorder(1, .gray.opacity(0.5))
                     .padding(.top, 25)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
                 
                 TextField("Email", text: $emailID)
                     .textContentType(.emailAddress)
-                    .customBorder(1, .gray.opacity(0.5))
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
                 
                 SecureField("Password", text: $password)
                     .textContentType(.emailAddress)
-                    .customBorder(1, .gray.opacity(0.5))
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
                 
-                TextField("About You", text: $userBio, axis: .vertical)
+                TextField("About You", text: $userBio)
                     .frame(minHeight: 100, alignment: .top)
-                    .textContentType(.emailAddress)
-                    .customBorder(1, .gray.opacity(0.5))
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
                 
                 TextField("Bio Link (Optional)", text: $userBioLink)
-                    .textContentType(.emailAddress)
-                    .customBorder(1, .gray.opacity(0.5))
-                
-                ImagePicker(selectedImage: $selectedProfileImage)
+                    .padding(.vertical, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
                 
                 Button(action: {
                     viewModel.registerUser(email: emailID, password: password)
@@ -178,24 +218,9 @@ extension View {
             .frame(maxHeight: .infinity, alignment: alignment)
     }
     
-    func customBorder(_ width: CGFloat, _ color: Color) -> some View {
-        self
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 5, style: .continuous)
-                    .stroke(color, lineWidth: width)
-            }
-    }
-    
     func customFillView(_ color: Color) -> some View {
         self
             .padding(.horizontal, 15)
             .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 5, style: .continuous)
-                    .fill(color)
-            }
     }
 }
-
