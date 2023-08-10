@@ -8,78 +8,11 @@
 import SwiftUI
 import Firebase
 
-struct LoginView: View {
-    //MARK: User Details
-    @State var emailID: String = ""
-    @State var password: String = ""
-    //MARK: View Properties
-    @State var createAccount: Bool = false
-    @State var showError: Bool = false
-    @State var errorMessage: String = ""
-    var body: some View {
-        VStack(spacing: 10){
-            Text("Lets sign you in!")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            
-            Text("Welcome back,\nYou have been missed!")
-                .font(.title3)
-                .hAlign(.leading)
-            
-            VStack(spacing: 12){
-                TextField("Email", text: $emailID)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                    .padding(.top,25)
-                
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                
-                Button(action: {
-                    resetPassword(email: emailID)
-                }) {
-                    Text("Reset password?")
-                        .font(.callout)
-                        .fontWeight(.medium)
-                }
-                .tint(.black)
-                .hAlign(.trailing)
-                
-                Button(action: {
-                    loginUser(email: emailID, password: password)
-                }) {
-                    Text("Sign In")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity) // This line ensures the button expands to the width of its container
-                        .padding() // Add padding for better visual appearance
-                        .fillView(.black)
-                }
-                .padding(.top,10)
-                //MARK: Register button
-                HStack{
-                    Text("Don't Have an account?")
-                        .foregroundColor(.gray)
-                    
-                    Button("Register Now"){
-                        createAccount.toggle()
-                    }
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
-                }
-                .font(.callout)
-                .vAlign(.bottom)
-            }
-        }
-        .vAlign(.top)
-        .padding(15)
-        //MARK: Register View VIA SHeets
-        .fullScreenCover(isPresented: $createAccount) {
-            RegisterView()
-        }
-    }
-}
-func loginUser(email: String, password: String) {
+class LoginViewModel: ObservableObject {
+    @Published var errorMessage: String = ""
+    @Published var showError: Bool = false
+    
+    func loginUser(email: String, password: String) {
         Task {
             do {
                 try await Auth.auth().signIn(withEmail: email, password: password)
@@ -107,7 +40,80 @@ func loginUser(email: String, password: String) {
             showError.toggle()
         }
     }
+}
 
+struct LoginView: View {
+    //MARK: User Details
+    @State var emailID: String = ""
+    @State var password: String = ""
+    //MARK: View Properties
+    @State var createAccount: Bool = false
+    @StateObject private var viewModel = LoginViewModel() // Using @StateObject to manage the viewModel
+    
+    var body: some View {
+        VStack(spacing: 10){
+            Text("Lets sign you in!")
+                .font(.largeTitle.bold())
+                .hAlign(.leading)
+            
+            Text("Welcome back,\nYou have been missed!")
+                .font(.title3)
+                .hAlign(.leading)
+            
+            VStack(spacing: 12){
+                TextField("Email", text: $emailID)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.5))
+                    .padding(.top,25)
+                
+                SecureField("Password", text: $password)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.5))
+                
+                Button(action: {
+                    viewModel.resetPassword(email: emailID) // Using viewModel's function
+                }) {
+                    Text("Reset password?")
+                        .font(.callout)
+                        .fontWeight(.medium)
+                }
+                .tint(.black)
+                .hAlign(.trailing)
+                
+                Button(action: {
+                    viewModel.loginUser(email: emailID, password: password) // Using viewModel's function
+                }) {
+                    Text("Sign In")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .fillView(.black)
+                }
+                .padding(.top,10)
+                
+                //MARK: Register button
+                HStack{
+                    Text("Don't Have an account?")
+                        .foregroundColor(.gray)
+                    
+                    Button("Register Now"){
+                        createAccount.toggle()
+                    }
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+                }
+                .font(.callout)
+                .vAlign(.bottom)
+            }
+        }
+        .vAlign(.top)
+        .padding(15)
+        //MARK: Register View VIA SHeets
+        .fullScreenCover(isPresented: $createAccount) {
+            RegisterView()
+        }
+    }
+}
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
