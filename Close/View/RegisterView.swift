@@ -8,30 +8,30 @@ class RegisterViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var showError: Bool = false
     @Published var userProfilePicData: Data?
+    @Published var selectedProfileImage: UIImage? = nil // Add this line
     @State private var userName: String = ""
     @State private var userBio: String = ""
     @State private var userBioLink: String = ""
     @State private var emailID: String = ""
     @State private var password: String = ""
-    @State private var selectedProfileImage: UIImage? = nil// Add this line
     
     func registerUser(email: String, password: String) {
         Task {
             do {
-                //Create firebase account
+                // Create firebase account
                 try await Auth.auth().createUser(withEmail: email, password: password)
-                //uploading profile pic into firebase storage
+                // Uploading profile pic into firebase storage
                 guard let userUID = Auth.auth().currentUser?.uid else { return }
                 guard let imageData = userProfilePicData else { return } // Use userProfilePicData here
                 let storageRef = Storage.storage().reference().child("Profile_Images").child(userUID)
                 let _ = try await storageRef.putDataAsync(imageData)
-                //downloading photo url
+                // Downloading photo url
                 let downloadURL = try await storageRef.downloadURL()
-                //creating a userstorage object
+                // Creating a userstorage object
                 let user = User(username: userName, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
-                //saving user doc into firestore database
+                // Saving user doc into firestore database
                 let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
-                    if error == nil{
+                    if error == nil {
                         print("Saved Successfully")
                     }
                 })
@@ -197,8 +197,12 @@ struct RegisterView: View {
                     Text("Sign up")
                         .foregroundColor(.white)
                         .customHAlign(.center)
-                        .customFillView(.black)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(selectedProfileImage != nil ? Color.black : Color.gray)
+                        .cornerRadius(8)
                 }
+                .disabled(userName.isEmpty || userBio.isEmpty || emailID.isEmpty || password.isEmpty || selectedProfileImage == nil)
                 .padding(.top, 10)
                 
                 HStack {
@@ -232,6 +236,12 @@ struct RegisterView_Previews: PreviewProvider {
 }
 
 extension View {
+    func disableWithOpacity(_ condition: Bool) -> some View {
+        self
+            .disabled(condition)
+            .opacity(condition ? 0.6 : 1)
+    }
+    
     func customHAlign(_ alignment: Alignment) -> some View {
         self
             .frame(maxWidth: .infinity, alignment: alignment)
