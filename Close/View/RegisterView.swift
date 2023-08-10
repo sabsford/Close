@@ -1,11 +1,5 @@
-//
-//  RegisterView.swift
-//  Close
-//
-//  Created by SF on 8/8/23.
-//
-
 import SwiftUI
+import UIKit
 import Firebase
 
 class RegisterViewModel: ObservableObject {
@@ -31,74 +25,133 @@ class RegisterViewModel: ObservableObject {
     }
 }
 
+struct ImagePicker: View {
+    @Binding var selectedImage: UIImage?
+    @State private var isImagePickerPresented = false
+    
+    var body: some View {
+        Button(action: {
+            isImagePickerPresented.toggle()
+        }) {
+            Text("Choose Profile Picture")
+                .foregroundColor(.white)
+                .customHAlign(.center)
+                .customFillView(.blue)
+        }
+        .padding(.top, 10)
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePickerViewController(selectedImage: $selectedImage, isImagePickerPresented: $isImagePickerPresented)
+        }
+    }
+}
+
+struct ImagePickerViewController: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    @Binding var isImagePickerPresented: Bool
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = context.coordinator
+        return imagePicker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+        // Update not needed
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        var parent: ImagePickerViewController
+        
+        init(_ parent: ImagePickerViewController) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                parent.selectedImage = selectedImage
+            }
+            parent.isImagePickerPresented = false
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isImagePickerPresented = false
+        }
+    }
+}
+
 struct RegisterView: View {
-    //MARK: User Details
     @State var emailID: String = ""
     @State var password: String = ""
     @State var userName: String = ""
     @State var userBio: String = ""
     @State var userBioLink: String = ""
+    @State var selectedProfileImage: UIImage? = nil
     @StateObject private var viewModel = RegisterViewModel() // Using @StateObject to manage the viewModel
     
-    var body: some View{
-        VStack(spacing: 10){
-            Text("Lets register account!")
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("Let's register an account!")
                 .font(.largeTitle.bold())
-                .hAlign(.leading)
+                .customHAlign(.leading)
             
-            Text("First time here?,\nWelcome to Close!")
+            Text("First time here?\nWelcome to Close!")
                 .font(.title3)
-                .hAlign(.leading)
+                .customHAlign(.leading)
             
-            VStack(spacing: 12){
+            VStack(spacing: 12) {
                 TextField("Username", text: $userName)
                     .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                    .padding(.top,25)
+                    .customBorder(1, .gray.opacity(0.5))
+                    .padding(.top, 25)
                 
                 TextField("Email", text: $emailID)
                     .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
+                    .customBorder(1, .gray.opacity(0.5))
                 
                 SecureField("Password", text: $password)
                     .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
+                    .customBorder(1, .gray.opacity(0.5))
                 
-                TextField("About You", text: $userBio,axis: .vertical)
-                    .frame(minHeight: 100,alignment: .top)
+                TextField("About You", text: $userBio, axis: .vertical)
+                    .frame(minHeight: 100, alignment: .top)
                     .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
+                    .customBorder(1, .gray.opacity(0.5))
                 
                 TextField("Bio Link (Optional)", text: $userBioLink)
                     .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-
-                Button {
-                    viewModel.registerUser(email: emailID, password: password) // Using viewModel's function
-                } label: {
-                    //MARK: Sign Up Button
+                    .customBorder(1, .gray.opacity(0.5))
+                
+                ImagePicker(selectedImage: $selectedProfileImage)
+                
+                Button(action: {
+                    viewModel.registerUser(email: emailID, password: password)
+                }) {
                     Text("Sign up")
                         .foregroundColor(.white)
-                        .hAlign(.center)
-                        .fillView(.black)
+                        .customHAlign(.center)
+                        .customFillView(.black)
                 }
-                .padding(.top,10)
+                .padding(.top, 10)
                 
-                HStack{
+                HStack {
                     Text("Already have an account?")
                         .foregroundColor(.gray)
                     
-                    Button("Login Now"){
-                        // Implement the login action here
+                    Button("Login Now") {
+                        // Handle the action to transition to the login view
                     }
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                 }
                 .font(.callout)
-                .vAlign(.bottom)
+                .customVAlign(.bottom)
             }
         }
-        .vAlign(.top)
+        .customVAlign(.top)
         .padding(15)
         .alert("Error", isPresented: $viewModel.showError) {
             Button("OK", role: .cancel) {}
@@ -114,20 +167,18 @@ struct RegisterView_Previews: PreviewProvider {
     }
 }
 
-// MARK: view eXTENSIONS FOR UI building
-extension View{
-    func customHAlign(_ alignment: Alignment)-> some View{
+extension View {
+    func customHAlign(_ alignment: Alignment) -> some View {
         self
             .frame(maxWidth: .infinity, alignment: alignment)
     }
     
-    func customVAlign(_ alignment: Alignment)-> some View{
+    func customVAlign(_ alignment: Alignment) -> some View {
         self
             .frame(maxHeight: .infinity, alignment: alignment)
     }
     
-    //MARK: Custom Border View with Padding
-    func customBorder(_ width: CGFloat, _ color: Color)-> some View{
+    func customBorder(_ width: CGFloat, _ color: Color) -> some View {
         self
             .padding(.horizontal, 15)
             .padding(.vertical, 10)
@@ -137,8 +188,7 @@ extension View{
             }
     }
     
-    //MARK: Custom Fill View with Padding
-    func customFillView(_ color: Color)-> some View{
+    func customFillView(_ color: Color) -> some View {
         self
             .padding(.horizontal, 15)
             .padding(.vertical, 10)
@@ -148,3 +198,4 @@ extension View{
             }
     }
 }
+

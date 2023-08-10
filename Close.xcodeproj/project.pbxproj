@@ -24,6 +24,9 @@
 		B2B7141D2A8330CA00190338 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B7141C2A8330CA00190338 /* LoadingView.swift */; };
 		B2B7141F2A83337200190338 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B7141E2A83337200190338 /* MainView.swift */; };
 		B2B714212A83738900190338 /* CloseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B714202A83738900190338 /* CloseApp.swift */; };
+		B2B714242A84730F00190338 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B2B714232A84730F00190338 /* FirebaseFirestore */; };
+		B2B714262A84731C00190338 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B2B714252A84731C00190338 /* FirebaseFirestoreSwift */; };
+		B2B714282A84732B00190338 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B2B714272A84732B00190338 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2B713FF2A81F77500190338 /* FirebaseAuth in Frameworks */,
+				B2B714282A84732B00190338 /* FirebaseStorage in Frameworks */,
+				B2B714242A84730F00190338 /* FirebaseFirestore in Frameworks */,
+				B2B714262A84731C00190338 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +105,7 @@
 				B2B713E12A81F64C00190338 /* CloseTests */,
 				B2B713EB2A81F64C00190338 /* CloseUITests */,
 				B2B713C92A81F64B00190338 /* Products */,
+				B2B714222A84730F00190338 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +173,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B2B714222A84730F00190338 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,6 +198,9 @@
 			name = Close;
 			packageProductDependencies = (
 				B2B713FE2A81F77500190338 /* FirebaseAuth */,
+				B2B714232A84730F00190338 /* FirebaseFirestore */,
+				B2B714252A84731C00190338 /* FirebaseFirestoreSwift */,
+				B2B714272A84732B00190338 /* FirebaseStorage */,
 			);
 			productName = Close;
 			productReference = B2B713C82A81F64B00190338 /* Close.app */;
@@ -671,6 +688,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B2B713FD2A81F77500190338 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		B2B714232A84730F00190338 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2B713FD2A81F77500190338 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		B2B714252A84731C00190338 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2B713FD2A81F77500190338 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		B2B714272A84732B00190338 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2B713FD2A81F77500190338 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
