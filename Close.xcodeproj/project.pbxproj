@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2A101032A854AB600E8FF5A /* MyPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A101022A854AB600E8FF5A /* MyPosts.swift */; };
+		B2A101052A854B9800E8FF5A /* MyPeersPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A101042A854B9800E8FF5A /* MyPeersPost.swift */; };
 		B2B713CC2A81F64B00190338 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B713CB2A81F64B00190338 /* AppDelegate.swift */; };
 		B2B713CE2A81F64B00190338 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B713CD2A81F64B00190338 /* SceneDelegate.swift */; };
 		B2B713D02A81F64B00190338 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B713CF2A81F64B00190338 /* ViewController.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B2A101022A854AB600E8FF5A /* MyPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPosts.swift; sourceTree = "<group>"; };
+		B2A101042A854B9800E8FF5A /* MyPeersPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPeersPost.swift; sourceTree = "<group>"; };
 		B2B713C82A81F64B00190338 /* Close.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Close.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B713CB2A81F64B00190338 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2B713CD2A81F64B00190338 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 				B2B714182A83272F00190338 /* RegisterView.swift */,
 				B2B7141C2A8330CA00190338 /* LoadingView.swift */,
 				B2B7141E2A83337200190338 /* MainView.swift */,
+				B2A101022A854AB600E8FF5A /* MyPosts.swift */,
+				B2A101042A854B9800E8FF5A /* MyPeersPost.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,7 +336,9 @@
 				B2B713D02A81F64B00190338 /* ViewController.swift in Sources */,
 				B2B7141F2A83337200190338 /* MainView.swift in Sources */,
 				B2B714192A83272F00190338 /* RegisterView.swift in Sources */,
+				B2A101032A854AB600E8FF5A /* MyPosts.swift in Sources */,
 				B2B7141B2A83294900190338 /* ContentView.swift in Sources */,
+				B2A101052A854B9800E8FF5A /* MyPeersPost.swift in Sources */,
 				B2B714212A83738900190338 /* CloseApp.swift in Sources */,
 				B2B713CC2A81F64B00190338 /* AppDelegate.swift in Sources */,
 				B2B714082A81F85700190338 /* LoginView.swift in Sources */,
