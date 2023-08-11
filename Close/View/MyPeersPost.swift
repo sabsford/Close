@@ -1,24 +1,41 @@
 import SwiftUI
 
 struct MyPeersPostView: View {
+    @State private var posts = [
+        "I am currently feeling Excited. Because I just launched my new SwiftUI app. Excited to share with everyone!",
+        "I am currently feeling a bit overwhelmed with all the SwiftUI features to explore.",
+        "I am currently completed the SwiftUI course and ready to start building real projects."
+    ]
+
+    @State private var isRefreshed = false
+    
     var body: some View {
         NavigationView {
             VStack {
-                Text("My Peers' Posts")
-                    .font(.title)
-                    .padding(.top, 20)
-                
                 ScrollView {
                     VStack(spacing: 20) {
-                        PeerPostView(postText: "I am currently feeling Excited. Because I just launched my new SwiftUI app. Excited to share with everyone!")
-                        PeerPostView(postText: "I am currently feeling a bit overwhelmed with all the SwiftUI features to explore.")
-                        PeerPostView(postText: "I am currently feeling exhausted because I haven't been able to rest due to this projecy.")
+                        ForEach(posts, id: \.self) { post in
+                            PeerPostView(postText: post)
+                        }
+                        
+                        Button(action: {
+                            refreshPosts()
+                        }) {
+                            Image(systemName: "arrow.clockwise.circle.fill")
+                                .font(.system(size: 30))
+                                .foregroundColor(.blue)
+                        }
                     }
                     .padding()
                 }
             }
-            .navigationTitle("My Peers' Posts")
+            .navigationTitle("My Peers Posts")
         }
+    }
+    
+    private func refreshPosts() {
+        // Simulate data refresh
+        isRefreshed.toggle()
     }
 }
 
@@ -29,9 +46,18 @@ struct PeerPostView: View {
         VStack(alignment: .leading) {
             Text(postText)
                 .font(.body)
+            Text(getTimestamp())
+                .font(.caption)
+                .foregroundColor(.gray)
             Divider()
                 .background(Color.gray)
         }
+    }
+    
+    private func getTimestamp() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy, h:mm a"
+        return formatter.string(from: Date())
     }
 }
 

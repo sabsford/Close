@@ -1,3 +1,4 @@
+
 import SwiftUI
 
 class HomePageViewController: UIViewController {
@@ -13,7 +14,7 @@ class HomePageViewController: UIViewController {
         // Create buttons
         let emotionWheelButton = createButton(title: "Emotion Wheel")
         let myPostsButton = createButton(title: "My Posts")
-        let peersPostsButton = createButton(title: "Peers' Posts")
+        let peersPostsButton = createButton(title: "Peers Posts")
 
         // Add buttons to view
         let stackView = UIStackView(arrangedSubviews: [emotionWheelButton, myPostsButton, peersPostsButton])
