@@ -8,6 +8,7 @@ struct MyPostsView: View {
     ]
 
     @State private var isRefreshed = false
+    @State private var isCreatePostPresented = false
     
     var body: some View {
         NavigationView {
@@ -25,10 +26,22 @@ struct MyPostsView: View {
                                 .font(.system(size: 30))
                                 .foregroundColor(.blue)
                         }
+                        .sheet(isPresented: $isCreatePostPresented) {
+                            CreateNewPostView(isPresented: $isCreatePostPresented, posts: $posts)
+                        }
                     }
                     .padding()
                 }
             }
+            .navigationBarItems(trailing:
+                Button(action: {
+                    isCreatePostPresented = true
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.blue)
+                }
+            )
             .navigationTitle("My Post's")
         }
     }
@@ -41,6 +54,7 @@ struct MyPostsView: View {
 
 struct PostView: View {
     let postText: String
+    @Environment(\.presentationMode) var presentationMode // Add this line
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -52,12 +66,77 @@ struct PostView: View {
             Divider()
                 .background(Color.gray)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss() // Go back to MyPostsView
+                }) {
+                    Image(systemName: "arrow.left.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.blue)
+                }
+            }
+        }
     }
     
     private func getTimestamp() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy, h:mm a"
         return formatter.string(from: Date())
+    }
+}
+
+struct CreateNewPostView: View {
+    @Binding var isPresented: Bool
+    @Binding var posts: [String]
+    
+    @State private var postText = ""
+    @State private var isShowingPost = false
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                Text("I currently feel...")
+                    .font(.title)
+                    .padding(.top, 20)
+                
+                TextEditor(text: $postText)
+                    .frame(height: 150)
+                    .padding()
+                    .border(Color.gray, width: 1)
+                    .cornerRadius(5)
+                
+                Button(action: {
+                    let newPost = postText
+                    posts.append(newPost)
+                    isPresented.toggle()
+                }) {
+                    Text("Post")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding(.top, 20)
+            }
+            .padding()
+            .navigationTitle("Create Post")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        isPresented.toggle()
+                    }) {
+                        Image(systemName: "arrow.left.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
+        }
     }
 }
 
