@@ -94,6 +94,8 @@ struct LoginView: View {
                         .padding()
                         .fillView(.black)
                     
+                    
+                    //NAVIGATE TO HOME PAGE ERROR?
 //                    NavigationLink(destination: HomePageViewController()) {
 //                        Text("Continue to Home")
 //                            .foregroundColor(.white)
