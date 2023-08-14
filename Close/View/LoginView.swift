@@ -4,6 +4,7 @@ import Firebase
 class LoginViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var showError: Bool = false
+    @Published var userLogin: String = ""
     
     func loginUser(email: String, password: String) {
         Task {
@@ -15,6 +16,8 @@ class LoginViewModel: ObservableObject {
             do {
                 try await Auth.auth().signIn(withEmail: email, password: password)
                 print("User Found")
+                self.userLogin = email
+                print(self.userLogin)
             } catch {
                 await setError(error: error)
             }
@@ -56,79 +59,81 @@ struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel() // Using @StateObject to manage the viewModel
     
     var body: some View {
-        VStack(spacing: 10){
-            Text("Lets sign you in!")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
-            
-            Text("Welcome back,\nYou have been missed!")
-                .font(.title3)
-                .hAlign(.leading)
-            
-            VStack(spacing: 12){
-                TextField("Email", text: $emailID)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
-                    .padding(.top,25)
+        if viewModel.userLogin == "" {
+            VStack(spacing: 10){
+                Text("Lets sign you in!")
+                    .font(.largeTitle.bold())
+                    .hAlign(.leading)
                 
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.5))
+                Text("Welcome back,\nYou have been missed!")
+                    .font(.title3)
+                    .hAlign(.leading)
                 
-                Button(action: {
-                    viewModel.resetPassword(email: emailID) // Using viewModel's function
-                }) {
-                    Text("Reset password?")
-                        .font(.callout)
-                        .fontWeight(.medium)
-                }
-                .tint(.black)
-                .hAlign(.trailing)
-                
-                Button(action: {
-                    viewModel.loginUser(email: emailID, password: password) // Using viewModel's function
-                }) {
-                    Text("Sign In")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .fillView(.black)
+                VStack(spacing: 12){
+                    TextField("Email", text: $emailID)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.5))
+                        .padding(.top,25)
                     
+                    SecureField("Password", text: $password)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.5))
                     
-                    //NAVIGATE TO HOME PAGE ERROR?
-//                    NavigationLink(destination: HomePageViewController()) {
-//                        Text("Continue to Home")
-//                            .foregroundColor(.white)
-//                            .frame(maxWidth: .infinity)
-//                            .padding()
-//                            .fillView(.black)
-                }
-                .padding(.top,10)
-                .alert(isPresented: $viewModel.showError) {
-                    Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
-                }
-                
-                //MARK: Register button
-                HStack{
-                    Text("Don't Have an account?")
-                        .foregroundColor(.gray)
-                    
-                    Button("Register Now"){
-                        createAccount.toggle()
+                    Button(action: {
+                        viewModel.resetPassword(email: emailID) // Using viewModel's function
+                    }) {
+                        Text("Reset password?")
+                            .font(.callout)
+                            .fontWeight(.medium)
                     }
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
+                    .tint(.black)
+                    .hAlign(.trailing)
+                    
+                    Button(action: {
+                        viewModel.loginUser(email: emailID, password: password) // Using viewModel's function
+                    }) {
+                        Text("Sign In")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .fillView(.black)
+                        
+                        
+                        //NAVIGATE TO HOME PAGE ERROR
+
+                    }
+                    .padding(.top,10)
+                    .alert(isPresented: $viewModel.showError) {
+                        Alert(title: Text("Error"), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK")))
+                    }
+                    
+                    //MARK: Register button
+                    HStack{
+                        Text("Don't Have an account?")
+                            .foregroundColor(.gray)
+                        
+                        Button("Register Now"){
+                            createAccount.toggle()
+                        }
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                    }
+                    .font(.callout)
+                    .vAlign(.bottom)
                 }
-                .font(.callout)
-                .vAlign(.bottom)
+            }
+            .vAlign(.top)
+            .padding(15)
+            //MARK: Register View VIA SHeets
+            .fullScreenCover(isPresented: $createAccount) {
+                RegisterView(createAccount: $createAccount)
+            }
+        }else{
+            NavigationView {
+                HomePageSwift()
             }
         }
-        .vAlign(.top)
-        .padding(15)
-        //MARK: Register View VIA SHeets
-        .fullScreenCover(isPresented: $createAccount) {
-            RegisterView()
-        }
+        
     }
 }
 

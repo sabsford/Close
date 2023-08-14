@@ -124,6 +124,7 @@ struct RegisterView: View {
     @State private var userBioLink: String = ""
     @State private var selectedProfileImage: UIImage? = nil
     @StateObject private var viewModel = RegisterViewModel()
+    @Binding var createAccount: Bool
     
     var body: some View {
         VStack(spacing: 10) {
@@ -215,9 +216,17 @@ struct RegisterView: View {
                     Text("Already have an account?")
                         .foregroundColor(.gray)
                     
-                    NavigationLink("Login Now", destination: LoginView())
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
+                    Button(action: {
+                        createAccount.toggle()
+                    }) {
+                        Text("Login Now")
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                    }
+                    
+//                    NavigationLink("Login Now", destination: LoginView())
+//                        .fontWeight(.bold)
+//                        .foregroundColor(.black)
                 }
                 .font(.callout)
                 .customVAlign(.bottom)
@@ -233,7 +242,7 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView()
+        RegisterView(createAccount: .constant(true))
     }
 }
 

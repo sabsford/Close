@@ -2,6 +2,7 @@
 import SwiftUI
 
 class HomePageViewController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,18 @@ class HomePageViewController: UIViewController {
         let hostingController = UIHostingController(rootView: myPeersPostView)
         navigationController?.pushViewController(hostingController, animated: true)
     }
+}
+
+struct HomePageSwift: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> HomePageViewController {
+        return HomePageViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: HomePageViewController, context: Context) {
+        
+    }
+    
+//    typealias UIViewControllerType = HomePageViewController
 }
 
 @available(iOS 13.0, *)
