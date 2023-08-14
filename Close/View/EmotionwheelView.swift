@@ -90,9 +90,9 @@ struct CreatePostView: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss() // Go back to Feeling Page
                 }) {
-                    Image(systemName: "arrow.left.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundColor(.blue)
+//                    Image(systemName: "arrow.left.circle.fill")
+//                        .font(.system(size: 30))
+//                        .foregroundColor(.blue)
                 }
             }
         }
