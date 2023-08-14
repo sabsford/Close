@@ -71,9 +71,6 @@ struct PostView: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss() // Go back to MyPostsView
                 }) {
-                    Image(systemName: "arrow.left.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundColor(.blue)
                 }
             }
         }
