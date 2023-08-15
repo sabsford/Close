@@ -7,7 +7,7 @@ import FirebaseFirestoreSwift
 struct User: Codable {
     var username: String
     var userBio: String
-    var userBioLink: String
+//    var userBioLink: String
     var userUID: String
     var userEmail: String
     var userProfileURL: URL
@@ -20,7 +20,7 @@ class RegisterViewModel: ObservableObject {
     @Published var selectedProfileImage: UIImage? = nil
     @State private var userName: String = ""
     @State private var userBio: String = ""
-    @State private var userBioLink: String = ""
+//    @State private var userBioLink: String = ""
     @State private var emailID: String = ""
     @State private var password: String = ""
     
@@ -33,7 +33,7 @@ class RegisterViewModel: ObservableObject {
                 let storageRef = Storage.storage().reference().child("Profile_Images").child(userUID)
                 let _ = try await storageRef.putDataAsync(imageData)
                 let downloadURL = try await storageRef.downloadURL()
-                let user = User(username: userName, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
+                let user = User(username: userName, userBio: userBio, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                 do {
                     try await Firestore.firestore().collection("Users").document(userUID).setData(from: user)
                     print("Saved Successfully")
@@ -121,15 +121,19 @@ struct RegisterView: View {
     @State private var password: String = ""
     @State private var userName: String = ""
     @State private var userBio: String = ""
-    @State private var userBioLink: String = ""
+//    @State private var userBioLink: String = ""
     @State private var selectedProfileImage: UIImage? = nil
     @StateObject private var viewModel = RegisterViewModel()
     @Binding var createAccount: Bool
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 1) {
+            Image(uiImage: UIImage(named: "logo") ?? UIImage())
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxHeight: 130)
             Text("Let's register an account!")
-                .font(.largeTitle.bold())
+                .font(.title2.bold())
                 .customHAlign(.leading)
             
             Text("First time here?\nWelcome to Close!")
@@ -191,12 +195,12 @@ struct RegisterView: View {
                             .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                     )
                 
-                TextField("Bio Link (Optional)", text: $userBioLink)
-                    .padding(.vertical, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                    )
+//                TextField("Bio Link (Optional)", text: $userBioLink)
+//                    .padding(.vertical, 10)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 5)
+//                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+//                    )
                 
                 Button(action: {
                     viewModel.registerUser(email: emailID, password: password)

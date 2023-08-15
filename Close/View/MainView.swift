@@ -3,12 +3,11 @@ import SwiftUI
 
 class HomePageViewController: UIViewController {
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-
+    
     func setupUI() {
         view.backgroundColor = .white
 
@@ -75,6 +74,7 @@ struct HomePageSwift: UIViewControllerRepresentable {
     
 //    typealias UIViewControllerType = HomePageViewController
 }
+
 
 @available(iOS 13.0, *)
 struct HomePageViewController_Preview: PreviewProvider {

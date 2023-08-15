@@ -54,7 +54,7 @@ struct MyPostsView: View {
 
 struct PostView: View {
     let postText: String
-    @Environment(\.presentationMode) var presentationMode // Add this line
+    @Environment(\.presentationMode) var presentationMode 
 
     var body: some View {
         VStack(alignment: .leading) {

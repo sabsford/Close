@@ -61,6 +61,10 @@ struct LoginView: View {
     var body: some View {
         if viewModel.userLogin == "" {
             VStack(spacing: 10){
+                Image(uiImage: UIImage(named: "logo") ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 130)
                 Text("Lets sign you in!")
                     .font(.largeTitle.bold())
                     .hAlign(.leading)
@@ -97,9 +101,8 @@ struct LoginView: View {
                             .frame(maxWidth: .infinity)
                             .padding()
                             .fillView(.black)
+                    
                         
-                        
-                        //NAVIGATE TO HOME PAGE ERROR
 
                     }
                     .padding(.top,10)
