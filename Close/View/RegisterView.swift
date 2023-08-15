@@ -127,11 +127,11 @@ struct RegisterView: View {
     @Binding var createAccount: Bool
     
     var body: some View {
-        VStack(spacing: 1) {
-            Image(uiImage: UIImage(named: "logo") ?? UIImage())
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxHeight: 115)
+        VStack(spacing: 11) {
+//            Image(uiImage: UIImage(named: "logo") ?? UIImage())
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(maxHeight: 115)
             Text("Let's register an account!")
                 .font(.title2.bold())
                 .customHAlign(.leading)
