@@ -131,7 +131,7 @@ struct RegisterView: View {
             Image(uiImage: UIImage(named: "logo") ?? UIImage())
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxHeight: 130)
+                .frame(maxHeight: 115)
             Text("Let's register an account!")
                 .font(.title2.bold())
                 .customHAlign(.leading)

@@ -64,7 +64,7 @@ struct LoginView: View {
                 Image(uiImage: UIImage(named: "logo") ?? UIImage())
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 130)
+                    .frame(maxHeight: 115)
                 Text("Lets sign you in!")
                     .font(.largeTitle.bold())
                     .hAlign(.leading)
